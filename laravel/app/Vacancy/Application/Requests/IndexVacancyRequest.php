@@ -6,7 +6,7 @@ namespace App\Vacancy\Application\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ListVacancyRequest extends FormRequest
+class IndexVacancyRequest extends FormRequest
 {
     public function rules(): array
     {
@@ -14,7 +14,7 @@ class ListVacancyRequest extends FormRequest
             'start' => 'required|date|date_format:Y-m-d',
             'end' => 'required|date|date_format:Y-m-d|after:start',
             'people' => 'required|numeric|min:1',
-            'user_id' => 'sometimes|numeric|exists:users,id',
+            'userId' => 'sometimes|numeric|exists:users,id',
         ];
     }
 }

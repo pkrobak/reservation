@@ -1,11 +1,12 @@
 <?php
 
-use App\Vacancy\UI\Http\VacancyController;
+use App\Vacancy\UI\Http\VacanciesController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [VacancyController::class, 'index'])
-    ->name('vacancies.index');
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/', [VacanciesController::class, 'index'])
+        ->name('vacancies.index');
 
-Route::post('/', [VacancyController::class, 'store'])
-    ->middleware('auth:sanctum')
-    ->name('vacancies.store');
+    Route::post('/', [VacanciesController::class, 'store'])
+        ->name('vacancies.store');
+});

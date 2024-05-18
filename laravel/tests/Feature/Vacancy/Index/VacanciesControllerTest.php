@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class VacancyControllerTest extends TestCase
+class VacanciesControllerTest extends TestCase
 {
     use RefreshDatabase;
     public function test_index_emptyList()
@@ -27,11 +27,7 @@ class VacancyControllerTest extends TestCase
     {
         $startDate = Carbon::now()->format('Y-m-d');
         $endDate = Carbon::now()->addDay()->format('Y-m-d');
-        Vacancy::factory([
-            'start' => $startDate,
-            'end' => $endDate,
-        ])
-            ->create();
+        Vacancy::factory()->lastDays((int)Carbon::parse($startDate)->diffInDays(Carbon::parse($endDate)))->create();
         $this->actingAs(User::factory()->create())
             ->json('GET', '/api/vacancies?people=1&start=' . $startDate . '&end=' . $endDate)
             ->assertOk()
@@ -50,18 +46,11 @@ class VacancyControllerTest extends TestCase
     {
         $startDate = Carbon::now()->format('Y-m-d');
         $endDate = Carbon::now()->addDay()->format('Y-m-d');
-        $vacancyExpected = Vacancy::factory([
-            'start' => $startDate,
-            'end' => $endDate,
-        ])
-            ->create();
-        $vacancyUnexpected = Vacancy::factory([
-            'start' => $startDate,
-            'end' => $endDate,
-        ])
-            ->create();
+        $vacancyExpected = Vacancy::factory()->create();
+        $vacancyUnexpected = Vacancy::factory()->create();
+
         $this->actingAs(User::factory()->create())
-            ->json('GET', '/api/vacancies?people=1&start=' . $startDate . '&end=' . $endDate . '&user_id=' . $vacancyExpected->user_id)
+            ->json('GET', '/api/vacancies?people=1&start=' . $startDate . '&end=' . $endDate . '&userId=' . $vacancyExpected->user_id)
             ->assertOk()
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.user_id', $vacancyExpected->user_id)
@@ -70,23 +59,26 @@ class VacancyControllerTest extends TestCase
     }
     public function test_index_unAuthenticatedWorks()
     {
-        $this->json('GET', '/api/vacancies?people=1&start=' . Carbon::now()->format('Y-m-d') . '&end=' . Carbon::now()->addDay()->format('Y-m-d'))
+        $this->actingAs(User::factory()->create())
+            ->json('GET', '/api/vacancies?people=1&start=' . Carbon::now()->format('Y-m-d') . '&end=' . Carbon::now()->addDay()->format('Y-m-d'))
             ->assertOk();
     }
     public function test_index_validation()
     {
-        $this->json('GET', '/api/vacancies?user_id=asb')
+        $this->actingAs(User::factory()->create())
+            ->json('GET', '/api/vacancies?userId=asb')
             ->assertUnprocessable()
             ->assertJsonValidationErrors([
                 'people',
                 'start',
                 'end',
-                'user_id',
+                'userId',
             ]);
     }
     public function test_index_validationDateRange()
     {
-        $this->json('GET', '/api/vacancies?start=2022-01-01&end=2000-01-01')
+        $this->actingAs(User::factory()->create())
+            ->json('GET', '/api/vacancies?start=2022-01-01&end=2000-01-01')
             ->assertUnprocessable()
             ->assertJsonValidationErrors([
                 'end',

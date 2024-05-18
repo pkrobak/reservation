@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace tests\Feature\Vacancy\Store;
+namespace Tests\Feature\Vacancy\Store;
 
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class VacancyControllerTest extends TestCase
+class VacanciesControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -42,7 +42,7 @@ class VacancyControllerTest extends TestCase
     public function test_store_success()
     {
         $people = random_int(1, 30);
-        $days = random_int(1, 30);
+        $days = random_int(1, 10);
         $user = User::factory()->create();
         $requestData = [
             'start' => Carbon::now()->addDay()->format('Y-m-d'),
@@ -54,12 +54,17 @@ class VacancyControllerTest extends TestCase
             ->postJson(route('vacancies.store'), $requestData)
             ->assertCreated();
 
-        $this->assertDatabaseHas('vacancies', [
-            'start' => $requestData['start'],
-            'end' => $requestData['end'],
-            'count' => $requestData['people'],
-            'user_id' => $user->id,
-        ]);
+        for (
+            $i = 0;
+            $i <= (int)Carbon::parse($requestData['start'])->diffInDays(Carbon::parse($requestData['end']));
+            $i++
+        ) {
+            $this->assertDatabaseHas('vacancies', [
+                'date' => Carbon::parse($requestData['start'])->addDays($i)->format('Y-m-d'),
+                'count' => $requestData['people'],
+                'user_id' => $user->id,
+            ]);
+        }
     }
     public function test_store_auth()
     {

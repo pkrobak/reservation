@@ -4,31 +4,28 @@ declare(strict_types=1);
 
 namespace App\Vacancy\Infrastructure;
 
-use App\Vacancy\Domain\VacancyRepositoryInterface;
+use App\Vacancy\Domain\Repositories\VacancyRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class VacancyRepository implements VacancyRepositoryInterface
 {
-    public function create(Carbon $start, Carbon $end, int $count, int $userId): void
+    public function create(Carbon $date, int $count, int $userId): void
     {
         $vacancy = Vacancy::query()
             ->where('user_id', '=', $userId)
-            ->where('start', '=', $start)
-            ->where('end', '=', $end)
+            ->where('date', '=', $date)
             ->first();
         if ($vacancy === null) {
             Vacancy::query()->create([
-                'start' => $start,
-                'end' => $end,
+                'date' => $date,
                 'count' => $count,
                 'user_id' => $userId,
             ]);
 
             return;
         }
-        $vacancy->count += $count;
-        $vacancy->save();
+        $vacancy->increment('count', $count);
     }
 
     public function list(int $people, ?int $userId, ?Carbon $start, ?Carbon $end): LengthAwarePaginator
@@ -38,10 +35,10 @@ class VacancyRepository implements VacancyRepositoryInterface
                 $query->where('user_id', $userId);
             })
             ->when($start, function ($query) use ($start) {
-                $query->where('start', '>=', $start);
+                $query->where('date', '>=', $start);
             })
             ->when($end, function ($query) use ($end) {
-                $query->where('end', '<=', $end);
+                $query->where('date', '<=', $end);
             })
             ->where('count', '>', $people)
             ->paginate();

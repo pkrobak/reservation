@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Vacancy\Application\Providers;
 
-use App\Vacancy\Domain\VacancyRepositoryInterface;
+use App\Vacancy\Domain\Repositories\VacancyRepositoryInterface;
 use App\Vacancy\Infrastructure\VacancyRepository;
 use Illuminate\Support\ServiceProvider;
 

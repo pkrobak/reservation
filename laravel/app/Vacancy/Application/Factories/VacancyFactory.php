@@ -8,18 +8,25 @@ use App\Models\User;
 use App\Vacancy\Infrastructure\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class VacancyFactory extends Factory
 {
     protected $model = Vacancy::class;
     public function definition(): array
     {
-        $start = Carbon::parse($this->faker->date());
         return [
+            'date' => Carbon::now(),
             'user_id' => User::factory()->create()->id,
-            'start' => $start,
-            'end' => Carbon::parse($start->addDays($this->faker->numberBetween(1, 14))),
             'count' => $this->faker->numberBetween(1, 10),
         ];
+    }
+    public function lastDays(int $days)
+    {
+        return $this->count($days)
+            ->sequence(fn (Sequence $sequence) => [
+                'date' => Carbon::now()->subDays($days)->addDays($sequence->index),
+                'user_id' => User::factory()->create()->id,
+            ]);
     }
 }

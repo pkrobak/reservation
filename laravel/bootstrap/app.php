@@ -14,10 +14,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withEvents(discover: [
         __DIR__ . '/../app/Vacancy/Application/Handlers'
     ])
-    ->withRouting(
-        api: __DIR__ . '/../app/Vacancy/UI/Http/api.php',
-        apiPrefix: 'api/vacancies'
-    )
     ->withMiddleware(function (Middleware $middleware) {
         //
     })

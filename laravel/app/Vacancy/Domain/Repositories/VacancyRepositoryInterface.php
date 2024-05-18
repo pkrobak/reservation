@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Vacancy\Domain;
+namespace App\Vacancy\Domain\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -10,8 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface VacancyRepositoryInterface
 {
     public function create(
-        Carbon $start,
-        Carbon $end,
+        Carbon $date,
         int    $count,
         int    $userId,
     ): void;
