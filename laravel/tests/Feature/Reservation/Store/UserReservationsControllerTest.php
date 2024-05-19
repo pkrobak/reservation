@@ -104,7 +104,6 @@ class UserReservationsControllerTest extends TestCase
         ];
         $this->actingAs(User::factory()->create())
             ->postJson('api/users/' . $vacancy->user_id . '/reservations', $requestData)
-            ->dump()
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['unavailable_dates']);
     }
