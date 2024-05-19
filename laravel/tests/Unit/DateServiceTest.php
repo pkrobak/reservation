@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Vacancy\Domain\Collections\CarbonCollection;
-use App\Vacancy\Domain\DatesService;
+use App\Vacancy\Domain\Services\DatesService;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
+
 class DateServiceTest extends TestCase
 {
     public function test_getDatesBetween_correct()

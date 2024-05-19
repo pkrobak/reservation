@@ -6,9 +6,9 @@ namespace Tests\Feature\Reservation\Index;
 
 
 use App\Models\User;
-use App\Reservation\Infrastructure\Client;
-use App\Reservation\Infrastructure\Reservation;
-use App\Vacancy\Infrastructure\Vacancy;
+use App\Reservation\Application\Models\Client;
+use App\Reservation\Application\Models\Reservation;
+use App\Vacancy\Application\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

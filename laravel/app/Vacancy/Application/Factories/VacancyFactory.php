@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Vacancy\Application\Factories;
 
 use App\Models\User;
-use App\Vacancy\Infrastructure\Vacancy;
+use App\Vacancy\Application\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\Sequence;

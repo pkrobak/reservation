@@ -12,7 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withEvents(discover: [
-        __DIR__ . '/../app/Vacancy/Application/Handlers'
+        __DIR__ . '/../app/Vacancy/Application/Handlers',
+        __DIR__ . '/../app/Reservation/Application/Handlers',
     ])
     ->withMiddleware(function (Middleware $middleware) {
         //

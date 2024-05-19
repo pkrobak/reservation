@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Reservation\Application\Factories;
 
-use App\Reservation\Infrastructure\Reservation;
+use App\Reservation\Application\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

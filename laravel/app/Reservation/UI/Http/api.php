@@ -1,8 +1,8 @@
 <?php
 
-use App\Reservation\UI\Http\ReservationController;
+use App\Reservation\UI\Http\Controllers\ReservationsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/', [ReservationController::class, 'index']);
+    Route::get('/', [ReservationsController::class, 'index']);
 });

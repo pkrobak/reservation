@@ -8,4 +8,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::prefix('/reservations')->group(base_path('app/Reservation/UI/Http/api.php'));
+Route::prefix('/users/{user}/reservations')->group(base_path('app/Reservation/UI/Http/reservation-api.php'));
 Route::prefix('/vacancies')->group(base_path('app/Vacancy/UI/Http/api.php'));

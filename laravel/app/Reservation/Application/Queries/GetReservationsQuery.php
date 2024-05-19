@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Reservation\Application\Queries;
 
 use App\Reservation\Domain\DTO\GetReservationDto;
-use App\Reservation\Domain\Repositories\ReservationRepositoryInterface;
+use App\Reservation\Domain\Repositories\ReservationListInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 readonly class GetReservationsQuery
 {
     public function __construct(
-        protected ReservationRepositoryInterface $reservationRepository
+        protected ReservationListInterface $reservationRepository
     ) {}
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-use App\Vacancy\UI\Http\VacanciesController;
+use App\Vacancy\UI\Http\Controllers\VacanciesController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Vacancy\Index;
 
 use App\Models\User;
-use App\Vacancy\Infrastructure\Vacancy;
+use App\Vacancy\Application\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
